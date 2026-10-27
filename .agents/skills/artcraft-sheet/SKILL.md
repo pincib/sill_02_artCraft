@@ -492,197 +492,182 @@ A troca de mensagens entre o agente analista da skill `artcraft-sheet` e os serv
 
 ### 4.2 Especificação Completa de Ferramentas MCP do GridCraft
 
-Abaixo são detalhadas as chamadas canônicas do servidor MCP `gridcraft`:
+O servidor MCP do **GridCraft** roda nativamente sobre stdio através do binário headless `gridcraft-cli mcp`. Ele expõe 21 ferramentas canônicas de alta performance para manipulação matricial, formatação, auditoria e exportação:
 
-#### 1. Criação de Pasta de Trabalho (`sheet_new`)
-Inicializa uma nova pasta de trabalho com parametrização de localidade e moeda padrão:
+#### 1. Criação e Abertura de Pasta de Trabalho (`new_workbook` e `open_workbook`)
+Inicializa uma nova pasta de trabalho vazia ou baseada em modelos padrão, ou abre uma pasta existente:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "sheet_new",
+  "ToolName": "new_workbook",
+  "Arguments": {}
+}
+```
+*Para abrir um arquivo existente:*
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "open_workbook",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "metadata": {
-      "project_name": "SaaS Enterprise Projections",
-      "author": "Antigravity Agent (artcraft-sheet)",
-      "base_currency": "USD",
-      "locale": "en-US",
-      "date_format": "YYYY-MM-DD"
-    },
-    "initial_sheets": ["01_Assumptions", "02_Projections", "03_DRE_Executive", "04_Handoff"]
+    "path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.xlsx"
   }
 }
 ```
 
-#### 2. Inserção de Dados e Cabeçalhos em Bloco (`range_set_values`)
-Popula uma matriz contígua de dados estáticos com tipos primitivos validados:
+#### 2. Inserção de Dados e Fórmulas em Bloco (`write_range`)
+Escreve uma matriz 2D a partir da célula superior esquerda. Textos iniciados por `=` são automaticamente compilados como fórmulas ativas pelo motor de cálculo do GridCraft:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "range_set_values",
+  "ToolName": "write_range",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "sheet_name": "01_Assumptions",
-    "start_cell": "A1",
+    "range": "A1",
     "values": [
-      ["Categoria", "Parâmetro", "Valor Base", "Unidade", "Notas de Auditoria"],
-      ["Receita", "Ticket Médio Mensal (ARPU)", 250.00, "USD", "Baseado no plano Pro vigente"],
-      ["Receita", "Crescimento de Novos Clientes MoM", 0.085, "PERCENT", "Taxa composta conservadora"],
-      ["Churn", "Taxa Mensal de Cancelamento (Churn)", 0.018, "PERCENT", "Histórico dos últimos 6 meses"],
-      ["Custos", "Custo de Aquisição de Clientes (CAC)", 1200.00, "USD", "Blend de tráfego pago e comercial"],
-      ["Impostos", "Alíquota Tributária Efetiva", 0.150, "PERCENT", "Projeção sob regime de Lucro Real"]
+      ["Categoria", "Métrica", "Q1", "Q2", "Q3", "Q4", "Total 2026"],
+      ["Receita", "Receita Recorrente (ARR)", 980000, 1450000, 2200000, 3400000, "=SUM(C2:F2)"],
+      ["Receita", "Serviços Profissionais", 120000, 150000, 180000, 210000, "=SUM(C3:F3)"],
+      ["Receita Total", "Gross Revenue", "=C2+C3", "=D2+D3", "=E2+E3", "=F2+F3", "=SUM(C4:F4)"],
+      ["Custos", "COGS (Infra + Suporte)", 180000, 250000, 360000, 520000, "=SUM(C5:F5)"],
+      ["Lucro Bruto", "Gross Profit", "=C4-C5", "=D4-D5", "=E4-E5", "=F4-F5", "=SUM(C6:F6)"],
+      ["Margem Bruta", "Gross Margin %", "=C6/C4", "=D6/D4", "=E6/E4", "=F6/F4", "=G6/G4"]
     ]
   }
 }
 ```
 
-#### 3. Injeção de Fórmulas e Relacionamentos Matriciais (`range_set_formulas`)
-Insere fórmulas dinâmicas que referenciam células de outras abas ou intervalos estruturados:
+#### 3. Leitura e Extração de Resultados Calculados (`read_range`)
+Lê valores computados de uma faixa em matriz 2D. Com `formatted: true`, retorna os números formatados com máscaras contábeis. Com `formulas: true`, retorna os textos das fórmulas:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "range_set_formulas",
+  "ToolName": "read_range",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "sheet_name": "02_Projections",
-    "formulas": [
-      {
-        "cell": "B2",
-        "formula": "=LET(arpu, '01_Assumptions'!$C$2, clientes, B$1, arpu * clientes)"
-      },
-      {
-        "cell": "B3",
-        "formula": "=B2 * (1 - '01_Assumptions'!$C$4)"
-      },
-      {
-        "cell": "B4",
-        "formula": "=B2 - B3"
-      },
-      {
-        "cell": "B10",
-        "formula": "=SUM(B2:B9)"
-      }
-    ]
+    "range": "A1:G7",
+    "formatted": true
   }
 }
 ```
 
-#### 4. Aplicação de Estilos Numéricos e Formatação (`range_format`)
-Aplica máscaras contábeis, tipografia, preenchimentos e bordas:
+#### 4. Formatação Profissional de Intervalos (`format_range`)
+Aplica estilos visuais, máscaras monetárias/percentuais, tipografia, cores hexadecimais, alinhamento e bordas em uma única chamada atômica:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "range_format",
+  "ToolName": "format_range",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "sheet_name": "01_Assumptions",
-    "ranges": [
-      {
-        "range": "A1:E1",
-        "style": {
-          "font_family": "Inter Tight",
-          "font_size": 11,
-          "font_weight": "BOLD",
-          "font_color": "#FFFFFF",
-          "background_color": "#0F172A",
-          "alignment_horizontal": "CENTER",
-          "border_bottom": {"width": 1.5, "color": "#38BDF8"}
-        }
-      },
-      {
-        "range": "C2",
-        "style": {"number_format": "$#,##0.00;($#,##0.00);\"-\""}
-      },
-      {
-        "range": "C3:C4",
-        "style": {"number_format": "0.0%"}
-      },
-      {
-        "range": "C5",
-        "style": {"number_format": "$#,##0.00;($#,##0.00);\"-\""}
-      },
-      {
-        "range": "C6",
-        "style": {"number_format": "0.0%"}
-      }
-    ]
+    "range": "A1:G1",
+    "bold": true,
+    "fontName": "Calibri",
+    "fontSize": 11,
+    "fontColor": "#FFFFFF",
+    "fillColor": "#0F172A",
+    "horizontalAlign": "center",
+    "borders": "thickBottom"
+  }
+}
+```
+*Formatação monetária e percentual das linhas de métricas:*
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "format_range",
+  "Arguments": {
+    "range": "C2:G6",
+    "numberFormat": "Currency"
+  }
+}
+```
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "format_range",
+  "Arguments": {
+    "range": "C7:G7",
+    "numberFormat": "Percentage"
   }
 }
 ```
 
-#### 5. Regras de Formatação Condicional (`conditional_formatting_add`)
-Adiciona regras dinâmicas que alteram o aspecto visual com base no valor computado:
+#### 5. Criação de Tabelas Excel Estruturadas (`create_table`)
+Transforma uma faixa em tabela com referências estruturadas, filtro automático e linhas zebradas:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "conditional_formatting_add",
+  "ToolName": "create_table",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "sheet_name": "02_Projections",
-    "range": "D2:D13",
-    "rule": {
-      "type": "NUMERIC_THRESHOLD",
-      "operator": "LESS_THAN",
-      "threshold_value": 0.20,
-      "style": {
-        "background_color": "#FEE2E2",
-        "font_color": "#991B1B",
-        "font_weight": "BOLD"
-      }
-    }
+    "range": "A1:G7",
+    "name": "TabelaDRE",
+    "header": true,
+    "style": "TableStyleMedium2"
   }
 }
 ```
 
-#### 6. Auditoria e Inspeção Estrutural (`inspect_grid`)
-Permite inspecionar a sanidade computacional de uma aba, detectando valores nulos, células de erro ou referências circulares:
+#### 6. Inserção de Gráficos Nativos (`insert_chart`)
+Insere gráficos diretamente na planilha vinculados à faixa de dados computada:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "inspect_grid",
+  "ToolName": "insert_chart",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "sheet_name": "02_Projections",
-    "check_errors": true,
-    "inspect_cells": ["B10", "C10", "D10", "E10"]
+    "range": "B1:F4",
+    "type": "column",
+    "subtype": "clustered",
+    "title": "Evolução de Receita Trimestral (ARR)",
+    "at": "A9"
   }
 }
 ```
 
-*Exemplo de Resposta de Inspeção Aprovada:*
-```json
-{
-  "status": "success",
-  "circular_references_detected": false,
-  "dirty_nodes_pending": 0,
-  "evaluated_cells": {
-    "B10": {"calculated_value": 245000.00, "formula": "=SUM(B2:B9)", "type": "CURRENCY", "error": null},
-    "C10": {"calculated_value": 285400.00, "formula": "=SUM(C2:C9)", "type": "CURRENCY", "error": null},
-    "D10": {"calculated_value": 332800.00, "formula": "=SUM(D2:D9)", "type": "CURRENCY", "error": null},
-    "E10": {"calculated_value": 388100.00, "formula": "=SUM(E2:E9)", "type": "CURRENCY", "error": null}
-  }
-}
-```
-
-#### 7. Exportação Estruturada para Handoff (`export_data`)
-Exporta os dados consolidados em JSON ou CSV para alimentação das demais ferramentas:
+#### 7. Avaliação Pontual de Fórmulas (`evaluate_formula`)
+Testa qualquer expressão matemática, estatística ou contábil do Excel sem alterar as células da planilha:
 
 ```json
 {
   "ServerName": "gridcraft",
-  "ToolName": "export_data",
+  "ToolName": "evaluate_formula",
   "Arguments": {
-    "workbook_path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.gridcraft",
-    "source_sheet": "04_Handoff",
-    "range": "A1:G15",
-    "export_format": "JSON_OBJECT_ARRAY",
-    "output_file_path": "C:/Users/berna/Music/skills_02/data/exports/executive_kpi_payload.json"
+    "formula": "NPV(0.12, 120000, 290000, 580000, 1020000) - 800000"
+  }
+}
+```
+
+#### 8. Inspeção Estrutural e Auditoria de Sanidade (`inspect_workbook`)
+Examina o resumo da pasta de trabalho ativa, abas, faixas utilizadas, contagem de células, tabelas, gráficos e histórico de undo:
+
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "inspect_workbook",
+  "Arguments": {}
+}
+```
+
+#### 9. Salvamento e Exportação Multi-formato (`save_workbook`)
+Grava a pasta de trabalho diretamente no formato desejado com base na extensão (.xlsx, .csv, .tsv, .json, .html):
+
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "save_workbook",
+  "Arguments": {
+    "path": "C:/Users/berna/Music/skills_02/data/SaaS_Financial_Model.xlsx"
+  }
+}
+```
+*Exportação em JSON para consumo pelas demais ferramentas (DeckCraft/DesignCraft):*
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "save_workbook",
+  "Arguments": {
+    "path": "C:/Users/berna/Music/skills_02/data/exports/financial_handoff.json"
   }
 }
 ```

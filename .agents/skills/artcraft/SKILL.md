@@ -1015,50 +1015,56 @@ O Orquestrador confere o número total de páginas e a integridade final:
 #### Papel Exclusivo no Fluxo:
 Estruturação de tabelas matriciais, aplicação de cálculos numéricos auditáveis, fórmulas financeiras avançadas, formatação de moedas e percentuais, e exportação de dados higienizados para consumo pelo DeckCraft ou DesignCraft.
 
-#### Formato do Payload de Instrução:
-O Orquestrador envia ao GridCraft a especificação completa de modelagem:
+#### Formato do Payload de Instrução MCP:
+O Orquestrador interage diretamente com o servidor MCP `gridcraft` executando chamadas atômicas:
 
+1. **Criação e Injeção de Dados e Fórmulas (`write_range`)**:
 ```json
 {
-  "workbook_path": "C:/Users/berna/Music/skills_02/data/financial_model.gridcraft",
-  "sheet_name": "Projections_2026",
-  "operations": [
-    {
-      "range": "A1:E1",
-      "action": "set_headers",
-      "values": ["Trimestre", "Usuários Ativos", "Receita Bruta (USD)", "Churn Rate", "EBITDA (USD)"]
-    },
-    {
-      "range": "A2:E5",
-      "action": "set_rows",
-      "values": [
-        ["Q1 2026", 15000, 450000, 0.021, "=C2*0.32"],
-        ["Q2 2026", 24000, 720000, 0.019, "=C3*0.35"],
-        ["Q3 2026", 38000, 1140000, 0.018, "=C4*0.38"],
-        ["Q4 2026", 62000, 1860000, 0.016, "=C5*0.42"]
-      ]
-    },
-    {
-      "range": "C2:C5",
-      "action": "format_currency",
-      "symbol": "$",
-      "decimals": 0
-    },
-    {
-      "range": "D2:D5",
-      "action": "format_percentage",
-      "decimals": 1
-    },
-    {
-      "range": "E2:E5",
-      "action": "format_currency",
-      "symbol": "$",
-      "decimals": 0
-    }
-  ],
-  "export": {
-    "format": "JSON_METRICS",
-    "output_path": "C:/Users/berna/Music/skills_02/data/exports/summary_metrics.json"
+  "ServerName": "gridcraft",
+  "ToolName": "write_range",
+  "Arguments": {
+    "range": "A1",
+    "values": [
+      ["Trimestre", "Usuários Ativos", "Receita Bruta (USD)", "Churn Rate", "EBITDA (USD)"],
+      ["Q1 2026", 15000, 450000, 0.021, "=C2*0.32"],
+      ["Q2 2026", 24000, 720000, 0.019, "=C3*0.35"],
+      ["Q3 2026", 38000, 1140000, 0.018, "=C4*0.38"],
+      ["Q4 2026", 62000, 1860000, 0.016, "=C5*0.42"]
+    ]
+  }
+}
+```
+
+2. **Formatação de Moeda e Percentuais (`format_range`)**:
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "format_range",
+  "Arguments": {
+    "range": "C2:C5",
+    "numberFormat": "Currency"
+  }
+}
+```
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "format_range",
+  "Arguments": {
+    "range": "D2:D5",
+    "numberFormat": "Percentage"
+  }
+}
+```
+
+3. **Salvamento e Exportação para Handoff (`save_workbook`)**:
+```json
+{
+  "ServerName": "gridcraft",
+  "ToolName": "save_workbook",
+  "Arguments": {
+    "path": "C:/Users/berna/Music/skills_02/data/exports/summary_metrics.json"
   }
 }
 ```
