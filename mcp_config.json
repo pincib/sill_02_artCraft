@@ -1,0 +1,68 @@
+{
+  "mcpServers": {
+    "deckcraft": {
+      "command": "C:/Program Files/DeckCraft/deckcraft-cli.exe",
+      "args": [
+        "mcp"
+      ]
+    },
+    "designcraft": {
+      "command": "C:/Program Files/DesignCraft/designcraft-cli.exe",
+      "args": [
+        "mcp"
+      ]
+    },
+    "effectcraft": {
+      "command": "C:/Program Files/EffectCraft/effectcraft-cli.exe",
+      "args": [
+        "mcp"
+      ]
+    },
+    "figcraft": {
+      "command": "C:/Program Files/FigCraft/figcraft-cli.exe",
+      "args": [
+        "mcp"
+      ]
+    },
+    "filmcraft": {
+      "command": "C:/Program Files/FilmCraft/filmcraft-cli.exe",
+      "args": [
+        "mcp",
+        "--compact"
+      ]
+    },
+    "gridcraft": {
+      "command": "C:/Program Files/GridCraft/gridcraft-cli.exe",
+      "args": [
+        "mcp"
+      ]
+    },
+    "lightcraft": {
+      "command": "C:/Program Files/LightCraft/lightcraft-cli.exe",
+      "args": [
+        "mcp",
+        "--compact"
+      ]
+    },
+    "pdfcraft": {
+      "command": "C:/Program Files/PdfCraft/pdfcraft-cli.exe",
+      "args": [
+        "mcp",
+        "--compact"
+      ]
+    },
+    "photocraft": {
+      "command": "C:/Program Files/PhotoCraft/photocraft-cli.exe",
+      "args": [
+        "mcp"
+      ]
+    },
+    "vectorcraft": {
+      "command": "C:/Program Files/VectorCraft/vectorcraft-cli.exe",
+      "args": [
+        "mcp",
+        "--headless"
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "artcraft-suite",
+  "displayName": "ArtCraft Creative & Executive Suite",
+  "version": "1.0.0",
+  "description": "Suíte multiagente e orquestrador criativo ArtCraft para Antigravity. Conecta 10 ferramentas profissionais de design, vídeo, imagem, dados e editorial via MCP.",
+  "suggestedPrompts": [
+    "ArtCraft: Planeje e execute o lançamento completo de um produto digital",
+    "ArtCraft Frontend: Gere design system, wireframe no FigCraft e tokens no DesignCraft",
+    "ArtCraft Video: Monte corte rítmico no FilmCraft e insira motion no EffectCraft"
+  ]
+}

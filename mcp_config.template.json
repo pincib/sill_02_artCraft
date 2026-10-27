@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json.schemastore.org/mcp-config.json",
+  "description": "ArtCraft MCP Server Configuration Template for Windows, macOS and Linux",
+  "mcpServers": {
+    "deckcraft": {
+      "windows": {
+        "command": "C:/Program Files/DeckCraft/deckcraft-cli.exe",
+        "args": ["mcp"]
+      },
+      "macos": {
+        "command": "/Applications/DeckCraft.app/Contents/MacOS/deckcraft-cli",
+        "args": ["mcp"]
+      },
+      "linux": {
+        "command": "deckcraft-cli",
+        "args": ["mcp"]
+      }
+    },
+    "designcraft": {
+      "windows": {
+        "command": "C:/Program Files/DesignCraft/designcraft-cli.exe",
+        "args": ["mcp"]
+      },
+      "macos": {
+        "command": "/Applications/DesignCraft.app/Contents/MacOS/designcraft-cli",
+        "args": ["mcp"]
+      },
+      "linux": {
+        "command": "designcraft-cli",
+        "args": ["mcp"]
+      }
+    },
+    "effectcraft": {
+      "windows": {
+        "command": "C:/Program Files/EffectCraft/effectcraft-cli.exe",
+        "args": ["mcp"]
+      },
+      "macos": {
+        "command": "/Applications/EffectCraft.app/Contents/MacOS/effectcraft-cli",
+        "args": ["mcp"]
+      },
+      "linux": {
+        "command": "effectcraft-cli",
+        "args": ["mcp"]
+      }
+    },
+    "figcraft": {
+      "windows": {
+        "command": "C:/Program Files/FigCraft/figcraft-cli.exe",
+        "args": ["mcp"]
+      },
+      "macos": {
+        "command": "/Applications/FigCraft.app/Contents/MacOS/figcraft-cli",
+        "args": ["mcp"]
+      },
+      "linux": {
+        "command": "figcraft-cli",
+        "args": ["mcp"]
+      }
+    },
+    "filmcraft": {
+      "windows": {
+        "command": "C:/Program Files/FilmCraft/filmcraft-cli.exe",
+        "args": ["mcp", "--compact"]
+      },
+      "macos": {
+        "command": "/Applications/FilmCraft.app/Contents/MacOS/filmcraft-cli",
+        "args": ["mcp", "--compact"]
+      },
+      "linux": {
+        "command": "filmcraft-cli",
+        "args": ["mcp", "--compact"]
+      }
+    },
+    "gridcraft": {
+      "windows": {
+        "command": "C:/Program Files/GridCraft/gridcraft-cli.exe",
+        "args": ["mcp"]
+      },
+      "macos": {
+        "command": "/Applications/GridCraft.app/Contents/MacOS/gridcraft-cli",
+        "args": ["mcp"]
+      },
+      "linux": {
+        "command": "gridcraft-cli",
+        "args": ["mcp"]
+      }
+    },
+    "lightcraft": {
+      "windows": {
+        "command": "C:/Program Files/LightCraft/lightcraft-cli.exe",
+        "args": ["mcp", "--compact"]
+      },
+      "macos": {
+        "command": "/Applications/LightCraft.app/Contents/MacOS/lightcraft-cli",
+        "args": ["mcp", "--compact"]
+      },
+      "linux": {
+        "command": "lightcraft-cli",
+        "args": ["mcp", "--compact"]
+      }
+    },
+    "pdfcraft": {
+      "windows": {
+        "command": "C:/Program Files/PdfCraft/pdfcraft-cli.exe",
+        "args": ["mcp", "--compact"]
+      },
+      "macos": {
+        "command": "/Applications/PdfCraft.app/Contents/MacOS/pdfcraft-cli",
+        "args": ["mcp", "--compact"]
+      },
+      "linux": {
+        "command": "pdfcraft-cli",
+        "args": ["mcp", "--compact"]
+      }
+    },
+    "photocraft": {
+      "windows": {
+        "command": "C:/Program Files/PhotoCraft/photocraft-cli.exe",
+        "args": ["mcp"]
+      },
+      "macos": {
+        "command": "/Applications/PhotoCraft.app/Contents/MacOS/photocraft-cli",
+        "args": ["mcp"]
+      },
+      "linux": {
+        "command": "photocraft-cli",
+        "args": ["mcp"]
+      }
+    },
+    "vectorcraft": {
+      "windows": {
+        "command": "C:/Program Files/VectorCraft/vectorcraft-cli.exe",
+        "args": ["mcp", "--headless"]
+      },
+      "macos": {
+        "command": "/Applications/VectorCraft.app/Contents/MacOS/vectorcraft-cli",
+        "args": ["mcp", "--headless"]
+      },
+      "linux": {
+        "command": "vectorcraft-cli",
+        "args": ["mcp", "--headless"]
+      }
+    }
+  }
+}
