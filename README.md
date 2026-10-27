@@ -3,6 +3,8 @@
 
 [![Antigravity](https://img.shields.io/badge/Antigravity-2.0%20Compatible-blue.svg)](https://antigravity.google)
 [![MCP Standard](https://img.shields.io/badge/Model%20Context%20Protocol-Supported-green.svg)](https://modelcontextprotocol.io)
+[![npx](https://img.shields.io/badge/npx-artcraft--suite-brightgreen.svg)](https://www.npmjs.com)
+[![pnpm dlx](https://img.shields.io/badge/pnpm%20dlx-supported-orange.svg)](https://pnpm.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Apps: 10 Supported](https://img.shields.io/badge/ArtCraft%20Apps-10%20Integrated-purple.svg)](https://getartcraft.com)
 
@@ -46,11 +48,53 @@ flowchart TD
 
 ---
 
-## 🚀 Como Baixar e Instalar do GitHub
+## 🚀 Como Baixar e Instalar
 
-Qualquer desenvolvedor ou designer pode clonar e utilizar esta suíte instantaneamente com qualquer um dos métodos abaixo:
+Qualquer desenvolvedor ou designer pode baixar e utilizar esta suíte instantaneamente usando **NPX**, **PNPM**, **NPM**, script automatizado ou direto no Workspace:
 
-### Método 1: Instalador Automático de 1 Comando (Recomendado)
+### Método 1: Via NPX, PNPM ou NPM (Recomendado - Multiplataforma)
+
+Você pode instalar e configurar todo o ecossistema com **um único comando no terminal**, sem precisar clonar nada previamente:
+
+#### Execução direta sem instalar nada (`npx` ou `pnpm dlx`):
+```bash
+# Executa o instalador diretamente via npx (Windows, macOS ou Linux):
+npx artcraft-suite
+
+# Ou com pnpm:
+pnpm dlx artcraft-suite
+```
+
+*Se você estiver baixando direto de um repositório GitHub:*
+```bash
+npx github:<SEU_USUARIO>/<SEU_REPO>
+# Ou com pnpm:
+pnpm dlx github:<SEU_USUARIO>/<SEU_REPO>
+```
+
+#### Instalação global via NPM / PNPM:
+```bash
+# Via NPM:
+npm install -g artcraft-suite
+artcraft-suite
+
+# Via PNPM:
+pnpm add -g artcraft-suite
+artcraft-suite
+```
+
+#### Comandos úteis da CLI:
+```bash
+artcraft-suite install    # Instala as 6 skills e configura os 10 servidores MCP (Padrão)
+artcraft-suite status     # Diagnóstico completo: verifica skills instaladas e apps detectados
+artcraft-suite uninstall  # Desinstalação limpa e remoção segura das configurações MCP
+```
+
+---
+
+### Método 2: Instalador de Script Nativo (PowerShell / Bash)
+
+Se preferir scripts nativos do sistema operacional:
 
 #### No Windows (PowerShell):
 Se você já clonou o repositório:
@@ -66,14 +110,10 @@ irm https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/install.p
 ```bash
 chmod +x ./install.sh && ./install.sh
 ```
-*O que o instalador faz automaticamente:*
-1. Copia todas as 6 skills para a pasta global de configurações do Antigravity (`~/.gemini/config/skills`).
-2. Detecta os aplicativos ArtCraft instalados no seu computador.
-3. Atualiza seu `~/.gemini/config/mcp_config.json` preservando outros servidores existentes (como Supabase, SQLite, etc.) e configurando as pastas de leitura e escrita do seu usuário.
 
 ---
 
-### Método 2: Modo Workspace Direto (Zero Instalação)
+### Método 3: Modo Workspace Direto (Zero Instalação)
 Se você não deseja instalar globalmente na máquina:
 1. Faça o clone do repositório:
    ```bash
@@ -84,7 +124,7 @@ Se você não deseja instalar globalmente na máquina:
 
 ---
 
-### Método 3: Instalação Manual
+### Método 4: Instalação Manual
 
 Se preferir copiar manualmente:
 1. Copie as pastas dentro de `skills/` para:

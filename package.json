@@ -1,0 +1,50 @@
+{
+  "name": "artcraft-suite",
+  "version": "1.0.0",
+  "description": "ArtCraft Multi-Agent Suite & MCP Integrations for Google Antigravity",
+  "main": "bin/cli.js",
+  "bin": {
+    "artcraft-suite": "./bin/cli.js",
+    "artcraft": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "skills",
+    ".agents",
+    "mcp_config.json",
+    "mcp_config.template.json",
+    "plugin.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/cli.js",
+    "install-suite": "node bin/cli.js install",
+    "status": "node bin/cli.js status",
+    "uninstall-suite": "node bin/cli.js uninstall"
+  },
+  "keywords": [
+    "antigravity",
+    "gemini",
+    "skills",
+    "mcp",
+    "model-context-protocol",
+    "artcraft",
+    "multi-agent",
+    "deckcraft",
+    "vectorcraft",
+    "photocraft",
+    "lightcraft",
+    "filmcraft",
+    "effectcraft",
+    "figcraft",
+    "designcraft",
+    "pdfcraft",
+    "gridcraft"
+  ],
+  "author": "Bernard / ArtCraft Suite Contributors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

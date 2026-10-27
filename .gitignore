@@ -1,3 +1,7 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
 # Logs and temporary files
 *.log
 *.tmp
