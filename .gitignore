@@ -22,3 +22,7 @@ Desktop.ini
 *.backup
 *.swp
 mcp_config.json.bak
+
+# Skill testing and generated media
+testando_skill/
+
